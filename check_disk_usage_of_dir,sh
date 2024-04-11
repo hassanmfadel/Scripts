@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#echo "$(cat usage.text | awk '{print $1}')" | sed 's/[^0-9]*//g'
+# du -sh capstone-project1-copy1/ > usage.text
+echo "This script is used to check the directory useage"
+read -p "Enter the dirctory path" path
+read -p "Enter the size limit of directory in KB " size
+
+du -sh $path > usage.text > usage.text
+dir_size= $(cat usage.text | awk '{print $1}')" | sed 's/[^0-9]*//g'
+
+if [ $dir_size -lt $size ]
+then
+echo "it is ok"
+else
+echo "deangerous"
+fi
