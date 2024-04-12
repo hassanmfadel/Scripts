@@ -7,9 +7,10 @@ read -p "Enter the dirctory path" path
 read -p "Enter the size limit of directory in KB " size
 
 du -sh $path > usage.text > usage.text
-dir_size= $(cat usage.text | awk '{print $1}')" | sed 's/[^0-9]*//g'
+echo $(cat usage.text | awk '{print $1}')" | sed 's/[^0-9]*//g' > dir_size.text
+echo "_____"
 
-if [ $dir_size -lt $size ]
+if [ $(cat dir_size.text) -lt $size ]
 then
 echo "it is ok"
 else
