@@ -3,16 +3,39 @@
 #echo "$(cat usage.text | awk '{print $1}')" | sed 's/[^0-9]*//g'
 # du -sh capstone-project1-copy1/ > usage.text
 echo "This script is used to check the directory useage"
-read -p "Enter the dirctory path" path
-read -p "Enter the size limit of directory in KB " size
+read -p "Enter the dirctory path:  " path
+read -p "Enter the size limit of directory in KB:  " size
 
-du -sh $path > usage.text > usage.text
-echo $(cat usage.text | awk '{print $1}')" | sed 's/[^0-9]*//g' > dir_size.text
-echo "_____"
-
-if [ $(cat dir_size.text) -lt $size ]
+du -sh $path > usage.text
+echo "-------"
+#calculate the size in kb
+totalsize=$(cat usage.text | awk '{print $1}')
+echo "Total size is: $totalsize"
+size_as_number=$(echo "$totalsize" | awk '{gsub(/[A-Za-z]/,"")}1')
+echo "The size as number is: $size_as_number"
+last_letter_of_size=$(echo "$totalsize" | awk '{print substr($0,length,1)}')
+echo "The size in range of Kilobyte (K) or migabyte (M): $last_letter_of_size"
+if [ "$last_letter_of_size" == "M" ]
 then
-echo "it is ok"
+#let new_size_as_number=echo "$size_as_number*1024 | bc "
+#let size_as_number=$size_as_number*1024
+ new_size_as_number=$(echo "$size_as_number * 1024" | bc)
 else
-echo "deangerous"
+let new_size_as_number=$size_as_number
 fi
+echo "new size in KB:  $new_size_as_number"
+echo "-------"
+
+#echo "$(cat usage.text | awk '{print $1}')" | sed 's/[^0-9]*//g' > dir_size.text
+#$dir_size1 = cat dir_size.text
+#echo "---"
+#echo "The size of directory is: " $dir_size
+
+#if [ $new_size_as_number  -lt  $size ]
+if [ "$(echo "$new_size_as_number < $size" | bc)" -eq 1 ]
+then
+echo "The size of directory is OK, it is: $new_size_as_number , under the condition size: $size"
+else
+echo ""The size of directory is DANGEROUS, it is: $new_size_as_number , under the condition size: $size""
+fi
+let new_size_as_number=0
