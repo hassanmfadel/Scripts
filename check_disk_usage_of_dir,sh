@@ -9,7 +9,8 @@ read -p "Enter the size limit of directory in KB:  " size
 du -sh $path > usage.text
 echo "-------"
 #calculate the size in kb
-totalsize=$(cat usage.text | awk '{print $1}')
+#totalsize=$(cat usage.text | awk '{print $1}')
+totalsize=$(echo "$(du -sh /home/packages)" | awk '{print $1}')
 echo "Total size is: $totalsize"
 size_as_number=$(echo "$totalsize" | awk '{gsub(/[A-Za-z]/,"")}1')
 echo "The size as number is: $size_as_number"
