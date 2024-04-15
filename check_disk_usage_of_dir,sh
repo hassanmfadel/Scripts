@@ -6,7 +6,7 @@ echo "This script is used to check the directory useage"
 read -p "Enter the dirctory path:  " path
 read -p "Enter the size limit of directory in KB:  " size
 
-du -sh $path > usage.text
+echo "The folder: $path , The size is: $(du -sh $path)" > usage.text
 echo "-------"
 #calculate the size in kb
 #totalsize=$(cat usage.text | awk '{print $1}')
